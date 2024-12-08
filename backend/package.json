@@ -3,10 +3,25 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "@types/node": "^22.10.1",
+    "apollo-server": "^3.13.0",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "graphql": "^16.9.0",
+    "node-fetch": "^3.3.2",
+    "pg": "^8.13.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.10"
+  }
 }
