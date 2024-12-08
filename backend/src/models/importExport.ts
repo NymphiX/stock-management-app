@@ -1,7 +1,7 @@
-export interface StockMovement {
+export interface ImportExport {
   id: number;
-  productId: number;
   warehouseId: number;
+  product: string;
   amount: number;
   date: string;
   type: 'import' | 'export';

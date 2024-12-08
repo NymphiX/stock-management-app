@@ -11,42 +11,31 @@ const typeDefs = gql`
   type Warehouse {
     id: ID!
     name: String!
-    maxSize: Float!
-    hazardous: Boolean!
+    maxStock: Float!
+    currentStock: Float!
+    freeStockSpace: Float!
+    importsExports: [ImportExport]
   }
 
-  type StockMovement {
+  type ImportExport {
     id: ID!
-    productId: ID!
-    warehouseId: ID!
-    amount: Float!
+    product: String!
+    amount: Int!
     date: String!
     type: String!
   }
 
   type Query {
     products: [Product]
-    product(id: ID!): Product
     warehouses: [Warehouse]
     warehouse(id: ID!): Warehouse
-    stockMovements: [StockMovement]
-    stockMovement(id: ID!): StockMovement
-    warehouseStock(warehouseId: ID!): Float
-    warehouseFreeSpace(warehouseId: ID!): Float
   }
 
   type Mutation {
     addProduct(name: String!, size: Float!, hazardous: Boolean!): Product
-    updateProduct(id: ID!, name: String, size: Float, hazardous: Boolean): Product
-    deleteProduct(id: ID!): Boolean
-
-    addWarehouse(name: String!, maxSize: Float!, hazardous: Boolean!): Warehouse
-    updateWarehouse(id: ID!, name: String, maxSize: Float, hazardous: Boolean): Warehouse
-    deleteWarehouse(id: ID!): Boolean
-
-    addStockMovement(productId: ID!, warehouseId: ID!, amount: Float!, date: String!, type: String!): StockMovement
-    updateStockMovement(id: ID!, productId: ID, warehouseId: ID, amount: Float, date: String, type: String): StockMovement
-    deleteStockMovement(id: ID!): Boolean
+    addWarehouse(name: String!, maxStock: Float!): Warehouse
+    addImport(warehouseId: ID!, product: String!, amount: Int!, date: String!): ImportExport
+    addExport(warehouseId: ID!, product: String!, amount: Int!, date: String!): ImportExport
   }
 `;
 

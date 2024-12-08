@@ -1,18 +1,12 @@
-import axios from 'axios';
+import fetch from 'node-fetch';
+import dotenv from 'dotenv';
 
-const apiUrl = process.env.REST_API_URL || 'https://api.mathjs.org/v4/';
+dotenv.config();
+
+const REST_API_URL = process.env.REST_API_URL;
 
 export const calculateExpression = async (expression: string): Promise<number> => {
-  try {
-    const response = await axios.post(apiUrl, {
-      expr: expression
-    });
-    return response.data.result;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(`Failed to evaluate expression: ${error.message}`);
-    } else {
-      throw new Error('Failed to evaluate expression due to an unknown error');
-    }
-  }
+  const response = await fetch(`${REST_API_URL}?expr=${encodeURIComponent(expression)}`);
+  const result = await response.text();
+  return parseFloat(result);
 };

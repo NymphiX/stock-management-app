@@ -8,15 +8,16 @@ CREATE TABLE products (
 CREATE TABLE warehouses (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
-  maxSize FLOAT NOT NULL,
-  hazardous BOOLEAN NOT NULL
+  max_stock FLOAT NOT NULL,
+  current_stock FLOAT NOT NULL DEFAULT 0,
+  free_stock_space FLOAT NOT NULL DEFAULT 0
 );
 
-CREATE TABLE stock_movements (
+CREATE TABLE imports_exports (
   id SERIAL PRIMARY KEY,
-  product_id INT REFERENCES products(id),
   warehouse_id INT REFERENCES warehouses(id),
-  amount FLOAT NOT NULL,
-  date TIMESTAMP NOT NULL,
-  type VARCHAR(10) NOT NULL
+  product VARCHAR(100) NOT NULL,
+  amount INT NOT NULL,
+  date DATE NOT NULL,
+  type VARCHAR(10) NOT NULL CHECK (type IN ('import', 'export'))
 );
