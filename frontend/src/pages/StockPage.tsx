@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { useParams } from 'react-router-dom';
 import { GET_WAREHOUSE_DETAILS, ADD_IMPORT, ADD_EXPORT } from '../graphql/queries';
+import { useParams } from 'react-router-dom';
 import { Warehouse, ImportExport } from '../types';
 
-interface WarehouseDetailParams extends Record<string, string | undefined> {
-  id: string;
-}
-
-const WarehouseDetail: React.FC = () => {
-  const { id } = useParams<WarehouseDetailParams>();
-  const { loading, error, data } = useQuery<{ warehouse: Warehouse }>(GET_WAREHOUSE_DETAILS, {
+const WarehouseStockMovementScreen: React.FC = () => {
+  const { id } = useParams();
+  const { loading, error, data } = useQuery(GET_WAREHOUSE_DETAILS, {
     variables: { id },
   });
 
@@ -37,26 +33,21 @@ const WarehouseDetail: React.FC = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const warehouse = data?.warehouse;
+  const warehouse: Warehouse = data.warehouse;
 
   return (
     <div>
-      <h2>Warehouse ID: {id}</h2>
-      {warehouse && (
-        <>
-          <p>Max Stock: {warehouse.maxStock}</p>
-          <p>Current Stock: {warehouse.currentStock}</p>
-          <p>Free Stock Space: {warehouse.freeStockSpace}</p>
-          <h3>Historic Imports/Exports</h3>
-          <ul>
-            {warehouse.importsExports.map((record: ImportExport) => (
-              <li key={record.id}>
-                {record.date} - {record.product} - {record.amount} ({record.type})
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+      <h2>{warehouse.name}</h2>
+      <p>Current Stock: {warehouse.currentStock}</p>
+      <p>Free Stock Space: {warehouse.freeStockSpace}</p>
+      <h3>Historic Imports/Exports</h3>
+      <ul>
+        {warehouse.importsExports.map((record: ImportExport) => (
+          <li key={record.id}>
+            {record.date} - {record.product} - {record.amount} ({record.type})
+          </li>
+        ))}
+      </ul>
       <h3>Add Import/Export</h3>
       <form onSubmit={handleAdd}>
         <label>
@@ -84,4 +75,4 @@ const WarehouseDetail: React.FC = () => {
   );
 };
 
-export default WarehouseDetail;
+export default WarehouseStockMovementScreen;

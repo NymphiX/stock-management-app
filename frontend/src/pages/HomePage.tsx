@@ -3,8 +3,8 @@ import { useQuery, useMutation } from '@apollo/client';
 import { GET_PRODUCTS, ADD_PRODUCT } from '../graphql/queries';
 import { Product } from '../types';
 
-const ProductList: React.FC = () => {
-  const { loading, error, data } = useQuery(GET_PRODUCTS);
+const ProductEntryScreen: React.FC = () => {
+  const { loading, error, data, refetch } = useQuery(GET_PRODUCTS);
   const [addProduct] = useMutation(ADD_PRODUCT);
 
   const [name, setName] = useState('');
@@ -17,6 +17,7 @@ const ProductList: React.FC = () => {
     setName('');
     setSize(0);
     setHazardous(false);
+    refetch();
   };
 
   if (loading) return <p>Loading...</p>;
@@ -52,4 +53,4 @@ const ProductList: React.FC = () => {
   );
 };
 
-export default ProductList;
+export default ProductEntryScreen;
